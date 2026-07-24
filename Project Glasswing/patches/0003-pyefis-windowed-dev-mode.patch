@@ -1,0 +1,28 @@
+diff --git a/src/pyefis/config/main/default.yaml b/src/pyefis/config/main/default.yaml
+index c0c75ed..3886ecb 100644
+--- a/src/pyefis/config/main/default.yaml
++++ b/src/pyefis/config/main/default.yaml
+@@ -15,9 +15,11 @@
+   #button_timeout: 10000 
+ 
+   # Screen Geometry
+-  # Defaults to screen size if screenWidth or screenHeight is not defined
+-  #screenWidth: 1280
+-  #screenHeight: 720
++  # screenWidth/screenHeight are REQUIRED when screenFullSize is False
++  # (Glasswing dev default: floating window; set screenFullSize: True for
++  #  the cockpit appliance build)
++  screenWidth: 1280
++  screenHeight: 800
+   #screenWidth: 1024
+   #screenHeight: 768
+   #screenWidth: 1920
+@@ -28,7 +30,7 @@
+   #screenWidth: 540
+ 
+   # Set EFIS to occupy the entire screen without system border / menu
+-  screenFullSize: True
++  screenFullSize: False
+ 
+   # Screen background color RGB
+   screenColor: (0,0,0)

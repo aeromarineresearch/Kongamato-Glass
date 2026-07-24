@@ -1,0 +1,15 @@
+# Project Glasswing milestone 0 — read ArduPilot SITL over UDP
+# (requires patch 0001-mavlink-network-links, already applied in vendor tree)
+mavlink:
+  load: MAVLINK
+  module: fixgw.plugins.mavlink
+  type: network
+  port: "udp:127.0.0.1:14552"
+  options:
+    airspeed: true
+    groundspeed: true
+    gps: true
+    ahrs: true
+    accel: true
+    pressure: true
+    pascal_offset: 2800

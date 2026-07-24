@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# afcs — the one command users ever learn.
+#   ./afcs sim     full stack in simulation (Gazebo + SITL + autonomy + Glasswing)
+#   ./afcs test    faster-than-real-time CI mission suite
+#   ./afcs up      deploy on the aircraft (arm64 images, real serial links)
+#   ./afcs logs    open latest flight logs in PlotJuggler/flight_review
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+cmd="${1:-help}"
+case "$cmd" in
+  sim)
+    docker compose -f docker/compose.sim.yaml up --build
+    ;;
+  test)
+    docker compose -f docker/compose.sim.yaml run --rm test \
+      pytest /ws/tests -x -q
+    ;;
+  up)
+    echo "==> Deploying to aircraft. Confirm the PIC has read docs/SAFETY.md."
+    docker compose -f docker/compose.aircraft.yaml up --build -d
+    ;;
+  logs)
+    ls -t logs/ | head -5
+    ;;
+  build)
+    docker build -f docker/aircraft.Dockerfile --target sim -t afcs/aircraft:amd64 .
+    docker build -f docker/aircraft.Dockerfile --target deploy -t afcs/aircraft:arm64 .
+    ;;
+  *)
+    sed -n '2,7p' "$0"
+    ;;
+esac

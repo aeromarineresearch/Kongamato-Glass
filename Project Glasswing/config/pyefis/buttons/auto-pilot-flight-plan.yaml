@@ -1,0 +1,37 @@
+type: toggle
+text: "Fight\nPlan"
+dbkey: TSBTN{id}26
+condition_keys:
+  - MAVMODE
+  - MAVSTATE
+  - MAVWPVALID
+conditions:
+  - when: "MAVWPVALID eq false"
+    # When any condition would prevent use of this mode disable the button
+    # This will prevent eval of any other conditions
+    actions:
+      - button: disable
+      - button: unchecked
+      - set bg color: red
+  - when: "MAVWPVALID eq true and MAVSTATE eq 'ARMED' and MAVMODE ne 'GUIDED'"
+    actions:
+      - button: unchecked
+      - button: enable
+      - set bg color: lightgray
+    continue: true
+  - when: "CLICKED eq true and DBKEY eq false"
+    actions:
+      - set value: MAVREQTRIM, True
+      - set bg color: yellow
+  - when: "CLICKED eq true and DBKEY eq true"
+    actions:
+      - set value: MAVREQGUIDED, True
+      - set bg color: yellow
+  - when: "MAVMODE eq 'GUIDED'"
+    actions:
+      - button: checked
+      - button: enabled
+      - set bg color: green
+
+
+

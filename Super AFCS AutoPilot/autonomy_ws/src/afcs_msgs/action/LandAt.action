@@ -1,0 +1,16 @@
+# LandAt: full auto-land at a named airport — wind check, pattern entry,
+# stabilized-approach gate, flare, rollout. Orchestrates ArduPilot LAND
+# mission items; adds judgment, not new control laws.
+string airport_ident       # ICAO, e.g. "KSQL"
+string runway_ident        # empty = auto-select by wind
+float64 max_crosswind_kt
+bool pilot_confirmed       # SAFETY.md §5: human confirmed the readback
+---
+bool success
+string abort_reason        # e.g. "UNSTABLE_AT_GATE", "RUNWAY_OCCUPIED"
+---
+string phase               # DIVERT | PATTERN_ENTRY | DOWNWIND | BASE | FINAL | GATE | FLARE | ROLLOUT
+float64 dtg_nm
+float64 wind_dir_deg
+float64 wind_kt
+float64 energy             # -1 low .. +1 high vs approach profile

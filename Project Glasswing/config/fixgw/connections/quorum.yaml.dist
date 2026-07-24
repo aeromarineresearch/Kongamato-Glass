@@ -1,0 +1,6 @@
+  quorum:
+    load: QUORUM
+    module: fixgw.plugins.quorum
+    nodeid: 2
+    total_nodes: 2
+

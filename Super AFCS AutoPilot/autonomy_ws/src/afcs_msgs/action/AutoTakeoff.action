@@ -1,0 +1,13 @@
+# AutoTakeoff: line up on runway, power, rotate at Vr, climb out.
+# Pilot may guard the throttle per config; abort gates are always active.
+string runway_ident        # e.g. "30"
+float64 rotate_kt          # Vr
+float64 climb_kt           # Vy
+float64 target_alt_ft      # pattern or initial climb altitude
+---
+bool success
+string abort_reason        # empty on success
+---
+string phase               # LINEUP | ROLL | ROTATE | CLIMB | COMPLETE
+float64 airspeed_kt
+float64 distance_used_ft

@@ -1,0 +1,32 @@
+# CI flies the airplane on every PR (SIM2REAL P1 gate).
+name: afcs-ci
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        target: [sim, deploy]      # code parity: both arches, every commit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build aircraft image (${{ matrix.target }})
+        run: |
+          docker buildx build --platform linux/${{ matrix.target == 'sim' && 'amd64' || 'arm64' }} \
+            -f docker/aircraft.Dockerfile --target ${{ matrix.target }} \
+            -t afcs/aircraft:${{ matrix.target }} --load .
+
+  mission-suite:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fly the FTRT mission suite
+        run: |
+          docker compose -f docker/compose.sim.yaml up -d simulation
+          docker compose -f docker/compose.sim.yaml run --rm test \
+            pytest /ws/tests -x -q --timeout=3600
+      # The suite (tests/) includes: auto takeoff, crosswind autoland,
+      # engine-out divert, runway-incursion abort, lost-link, docker-kill
+      # of the autonomy container mid-flight (SAFETY.md matrix), ASR garbage.

@@ -1,0 +1,21 @@
+# Edit this file to make changes.
+# format is the same as preferences.yaml
+# Any section defined here will override what is in
+# the preferences.yaml
+#style: [ ]
+style:
+  basic: true
+  dseg: false
+  ghost: false
+  segmented: true
+
+enabled:
+  AUTO_START: true
+  VSI_BALL: false
+  VSI_TAPE: true
+
+#gauges:
+#  ARC1:
+#    disabled: True
+#  BAR37:
+#    disabled: True

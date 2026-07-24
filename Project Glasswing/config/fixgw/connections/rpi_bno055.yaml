@@ -1,0 +1,4 @@
+bno055:
+  load: RPI_BNO055
+  module: fixgw.plugins.rpi_bno055
+

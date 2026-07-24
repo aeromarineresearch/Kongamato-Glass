@@ -1,0 +1,116 @@
+diff --git a/Makefile b/Makefile
+index d499352..1e7654a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -44,7 +44,7 @@ init.marker: pyproject.toml
+ 	    else \
+ 		echo "...PyQt6 is installed system-wide"; \
+ 	    fi; \
+-	    venv/bin/pip install -e .; \
++	    venv/bin/pip install -e .[rpi]; \
+ 	else \
+ 	    echo "Will install with PyQt6 from PyPI"; \
+ 	    venv/bin/pip install -e .[qt]; \
+diff --git a/pyproject.toml b/pyproject.toml
+index b69965c..045f2b2 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -50,12 +50,6 @@ dependencies = [
+     "py-gpsd2==0.1.0",
+     # "PyQt6>=6.6.1",
+     "psutil>=5.9.8",
+-    # You cannot install rpi-lgpio and rpi-gpio (aka RPi.GPIO, the library it emulates) 
+-    # at the same time, in the same Python environment. Both packages attempt 
+-    # to install a module named RPi.GPIO and obviously this will not work.
+-    "rpi-lgpio>=0.6",
+-    "smbus"
+-
+ ]
+ 
+ [project.optional-dependencies]
+@@ -65,6 +59,16 @@ build = [
+ qt = [
+     "PyQt6>=6.6.1",
+ ]
++# Raspberry-Pi-only hardware plugins (GPIO/I2C). These are Linux/RPi-only
++# packages — keeping them in an extra lets the gateway install cleanly on
++# macOS/Windows dev machines (e.g. for SITL development).
++# You cannot install rpi-lgpio and rpi-gpio (aka RPi.GPIO, the library it emulates)
++# at the same time, in the same Python environment. Both packages attempt
++# to install a module named RPi.GPIO and obviously this will not work.
++rpi = [
++    "rpi-lgpio>=0.6",
++    "smbus",
++]
+ 
+ [project.scripts]
+ fixgw = "fixgw.server:main"
+diff --git a/src/fixgw/plugins/mavlink/Mav.py b/src/fixgw/plugins/mavlink/Mav.py
+index 0ee8c25..b7b1eca 100644
+--- a/src/fixgw/plugins/mavlink/Mav.py
++++ b/src/fixgw/plugins/mavlink/Mav.py
+@@ -83,22 +83,33 @@ class Mav:
+         self._waypoint = str  # The current known waypoint
+         self.setStat("ERROR", "No Communication")
+ 
+-        if not stat(port):
+-            self.setStat("ERROR", "No Communication")
+-            raise Exception(f"serial port {port} is not found!")
+-        # When using USB serial when flight computer boots it creates /dev/ttyASM0
+-        # But then removes it and re-creates it again, we want to ensure we open the correct one so we wait and check again
+-        time.sleep(5)
+-        if not stat(port):
+-            self.setStat("ERROR", "No Communication")
+-            raise Exception(f"serial port {port} is not found!")
++        # pymavlink connection strings (e.g. "udp:127.0.0.1:14552",
++        # "tcp:127.0.0.1:5760", "udpin:0.0.0.0:14550") are network links,
++        # not serial device files — skip the device-file checks for those.
++        self._network_link = port.startswith(
++            ("udp:", "udpin:", "udpout:", "tcp:", "tcpin:", "tcpout:", "udp-bcast:")
++        )
++
++        if not self._network_link:
++            if not stat(port):
++                self.setStat("ERROR", "No Communication")
++                raise Exception(f"serial port {port} is not found!")
++            # When using USB serial when flight computer boots it creates /dev/ttyASM0
++            # But then removes it and re-creates it again, we want to ensure we open the correct one so we wait and check again
++            time.sleep(5)
++            if not stat(port):
++                self.setStat("ERROR", "No Communication")
++                raise Exception(f"serial port {port} is not found!")
+ 
+         self._interval = defaultdict(lambda: 200000)
+         self._data = defaultdict(list)
+         self._max_average = 15
+ 
+-        # Connect
+-        self.conn = mavutil.mavlink_connection(port, baud=baud)
++        # Connect (baud is meaningless for network links)
++        if self._network_link:
++            self.conn = mavutil.mavlink_connection(port)
++        else:
++            self.conn = mavutil.mavlink_connection(port, baud=baud)
+         self.ids = []
+         self.ids.append(mavutil.mavlink.MAVLINK_MSG_ID_SERVO_OUTPUT_RAW)
+         self._interval[mavutil.mavlink.MAVLINK_MSG_ID_SERVO_OUTPUT_RAW] = 400000
+diff --git a/src/fixgw/plugins/mavlink/__init__.py b/src/fixgw/plugins/mavlink/__init__.py
+index dc6ae6f..64a4f7e 100644
+--- a/src/fixgw/plugins/mavlink/__init__.py
++++ b/src/fixgw/plugins/mavlink/__init__.py
+@@ -114,11 +114,13 @@ class MainThread(threading.Thread):
+ class Plugin(plugin.PluginBase):
+     def __init__(self, name, config, config_meta):
+         super(Plugin, self).__init__(name, config, config_meta)
+-        if config["type"] == "serial":
++        # "serial" for device files (e.g. /dev/ttyACM0), "network" for
++        # pymavlink connection strings (udp:/tcp:/udpin:/...) such as SITL
++        if config["type"] in ("serial", "network"):
+             self.thread = MainThread(self)
+             self.status = OrderedDict()
+         else:
+-            raise ValueError("Only serial type is implemented")
++            raise ValueError("Only serial and network types are implemented")
+ 
+     def run(self):
+ 

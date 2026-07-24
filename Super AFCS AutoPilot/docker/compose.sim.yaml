@@ -1,0 +1,48 @@
+# Full stack in simulation — the "./afcs sim" experience.
+# Three services mirror the AAS simulation/ground/aircraft split.
+services:
+  simulation:
+    build:
+      context: ..
+      dockerfile: docker/simulation.Dockerfile
+    environment:
+      WORLD: ksql_airport          # Gazebo world: real runway geometry
+      VEHICLE: glasswing_c172      # ArduPilot SITL fixed-wing model
+      RTF: "0"                     # as-fast-as-possible (FTRT, SIM2REAL §4)
+      AUTOPILOT: ardupilot
+    networks: [sim_net, air_net]
+    # Publishes: Gazebo sensors (GStreamer UDP cam, LiDAR), MAVLink SITL,
+    #            FIX-Gateway NetFIX :3490 (the Glasswing bus runs here in sim)
+
+  aircraft:
+    build:
+      context: ..
+      dockerfile: docker/aircraft.Dockerfile
+      target: sim
+    depends_on: [simulation]
+    environment:
+      AFCS_ENV: sim
+      NETFIX_HOST: simulation
+      MAVLINK_URI: udp://simulation:14550
+      USE_SIM_TIME: "true"
+    networks: [sim_net, air_net]
+
+  ground:
+    image: ghcr.io/afcs/ground:latest   # QGroundControl + zenoh bridge + review tools
+    depends_on: [aircraft]
+    networks: [air_net]
+    ports:
+      - "3490:3490"   # NetFIX -> host: run Glasswing pyEfis / HUD against the sim
+
+  test:
+    build:
+      context: ..
+      dockerfile: docker/aircraft.Dockerfile
+      target: sim
+    depends_on: [simulation]
+    profiles: ["test"]
+    networks: [sim_net, air_net]
+
+networks:
+  sim_net:   # "inside the airframe": sensors, SITL MAVLink (UDP)
+  air_net:   # "over the radio": zenoh bridge, NetFIX to displays (TCP)

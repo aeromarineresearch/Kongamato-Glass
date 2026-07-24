@@ -1,0 +1,74 @@
+# Super AFCS FMA strip (Flight Mode Annunciator) — Track 1 / Track 3 sync.
+# Renders across the top of the PFD: MODE | TARGET | PHASE, with an intent
+# ticker line below. Data: FIX keys AFCS_* (written by glasswing_bridge).
+# Contract: Super AFCS AutoPilot/docs/INTEGRATION.md
+#
+# Include at the TOP of the PFD screen, span the full width, ~12 rows tall
+# (PFD layout grid is 110 rows x 200 columns).
+instruments:
+  # ---- Line 1: MODE (big) | TARGET | DTG/ETA ----
+  - type: value_text
+    row: 0
+    column: 0
+    span:
+      rows: 6
+      columns: 60
+    options:
+      dbkey: AFCS_MODE
+      font_mask: "AUTO_TAKEOFF"
+      alignment: AlignLeft
+
+  - type: value_text
+    row: 0
+    column: 62
+    span:
+      rows: 6
+      columns: 90
+    options:
+      dbkey: AFCS_TARGET
+      font_mask: "XXXXXXXXXXXXXXXXXXXX"
+      alignment: AlignHCenter
+
+  - type: value_text
+    row: 0
+    column: 154
+    span:
+      rows: 6
+      columns: 46
+    options:
+      dbkey: AFCS_WIND
+      font_mask: "000@00G00"
+      alignment: AlignRight
+
+  # ---- Line 2: phase + intent ticker ----
+  - type: value_text
+    row: 6
+    column: 0
+    span:
+      rows: 5
+      columns: 60
+    options:
+      dbkey: AFCS_PHASE
+      font_mask: "XXXXXXXXXXXXXX"
+      alignment: AlignLeft
+
+  - type: value_text
+    row: 6
+    column: 62
+    span:
+      rows: 5
+      columns: 138
+    options:
+      dbkey: AFCS_INTENT
+      font_mask: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      alignment: AlignLeft
+
+  # ---- Big red DISENGAGE (always visible, SAFETY.md override path #4) ----
+  - type: button
+    row: 0
+    column: 178
+    span:
+      rows: 11
+      columns: 22
+    options:
+      config: buttons/afcs-disengage.yaml

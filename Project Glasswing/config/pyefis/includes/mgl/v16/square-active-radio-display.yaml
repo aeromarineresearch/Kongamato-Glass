@@ -1,0 +1,115 @@
+instruments:
+  - type: minimal_size
+    disabled: true
+    row: 0
+    column: 0
+    span:
+      rows: 32
+      columns: 32
+  - type: numeric_display
+    gang_type: horizontal
+    row: 0
+    column: 0
+    span:
+      rows: 7
+      columns: 35
+    preferences: TEXT1
+    options:
+      clipping: True
+      font_mask: "000.000"
+      font_family: DejaVu Sans Mono
+      decimal_places: 3
+      dbkey: COMACTFREQ{radio_id}
+      encoder_order: 400024
+      encoder_multiplier: 0.025
+      encoder_num_enforce_multiplier: true
+      encoder_num_mask: "000.000"
+      # encoder_num_excluded: []
+  - type: value_text
+    row: 8
+    column: 0
+    span:
+      rows: 5
+      columns: 35
+    preferences: TEXT2
+    options:
+      font_mask:       "XXXXXXXXXXXX"
+      dbkey: COMACTNAME{radio_id}
+  - type: button
+    row: 14
+    column: 0
+    span:
+      rows: 6
+      columns: 6
+    options:
+      config: buttons/mgl/v16/active-rx-status.yaml
+  - type: horizontal_bar_gauge
+    ratio: 3
+    row: 13
+    column: 7
+    span:
+      rows: 8
+      columns: 24
+    preferences: BAR34
+    options:
+      name: RX
+      bar_divisor: 2.5
+      decimal_places: 0
+      show_units: false
+      show_value: false
+      dbkey: COMACTRXLEVEL{radio_id}
+  - type: horizontal_bar_gauge
+    ratio: 3
+    row: 16.5
+    column: 7
+    span:
+      rows: 8
+      columns: 24
+    preferences: BAR33
+    options:
+      name: Squelch
+      bar_divisor: 2.5
+      decimal_places: 0
+      show_units: false
+      show_value: false
+      dbkey: COMSQUELCH{radio_id}
+      encoder_order: 400025
+      encoder_set_real_time: True
+  - type: button
+    row: 21.5
+    column: 0
+    span:
+      rows: 6
+      columns: 6
+    options:
+      config: buttons/mgl/v16/active-tx-status.yaml
+  - type: horizontal_bar_gauge
+    ratio: 3
+    row: 20
+    column: 7
+    span:
+      rows: 8
+      columns: 24
+    preferences: BAR35
+    options:
+      name: TX
+      bar_divisor: 2.5
+      decimal_places: 0
+      show_units: false
+      show_value: false
+      dbkey: COMTXPWR{radio_id}
+  - type: horizontal_bar_gauge
+    ratio: 3
+    row: 23.5
+    column: 7
+    span:
+      rows: 8
+      columns: 24
+    preferences: BAR36
+    options:
+      name: SWR
+      bar_divisor: 2.5
+      decimal_places: 0
+      show_units: false
+      show_value: false
+      dbkey: COMVSWR{radio_id}

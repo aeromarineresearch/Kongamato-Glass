@@ -1,0 +1,35 @@
+# AVOID EDITING THIS FILE SEE BELOW
+# Future updates may include changes to this file but once you edit
+# this file it will no longer be auto-updated and you will not
+# benefit from the improvements without manual intervention
+
+include: 
+- database/variables.yaml
+
+entries:
+
+- include: database/generic.yaml
+- include: database/ahrs.yaml
+- include: database/com_radio.yaml
+- include: database/engine.yaml
+- include: database/trims.yaml
+- include: database/mavlink.yaml
+- include: database/system.yaml
+- include: database/control.yaml
+- include: database/misc.yaml
+- include: database/tires.yaml
+#################################################
+# If you want to modify or add new items place do so in the file
+# database/custom.yaml
+# Comments in database/custom.yaml will explain how to
+# add or modify items
+# By editing only database/custom.yaml you will
+# automatically recieve updated to these files 
+# when the software is updated in the future
+- include: database/custom.yaml
+
+# The last.yaml must always be the last one.
+# It contains a key used to detect if all
+# keys are ininitialized
+- include: database/last.yaml
+

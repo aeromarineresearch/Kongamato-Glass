@@ -1,0 +1,4 @@
+ifly:
+  load: IFLY
+  module: fixgw.plugins.ifly
+

@@ -1,0 +1,39 @@
+# Aircraft profile — Cessna-172-class dev profile (sim + subscale reference).
+# Every airframe gets its own profile; the authority ladder (SAFETY.md §4)
+# is enforced HERE, in config, not by discipline.
+aircraft:
+  name: "C172-class dev"
+  type: fixed_wing
+  autopilot: ardupilot        # ardupilot | px4
+
+performance:
+  vr_kt: 55
+  vy_kt: 74
+  vapp_kt: 65
+  vso_kt: 40
+  min_runway_ft: 2000
+  max_demonstrated_crosswind_kt: 15
+
+authority_ladder:             # granted per phase; start everything false
+  shadow_mode: true           # advise-only: FMA shows intent, never acts
+  enroute: false
+  auto_takeoff: false
+  auto_land: false
+  full_mission: false
+
+limits:
+  auto_land_max_crosswind_kt: 5   # widens only with logged evidence (P3+)
+  approach_gate:
+    agl_ft: 500
+    ias_tolerance_kt: 5
+    glideslope_tolerance_dot: 1
+
+sensors:
+  camera: imx219_200          # same model simulated in Gazebo (code parity)
+  lidar: none                 # optional: livox_mid360
+  adsb_in: gdl90              # Stratux on UDP :4000 (optional)
+
+human_interface:
+  wake_word: "glasswing"
+  asr: whisper.cpp            # on-device; no cloud in the cockpit
+  require_confirm: true

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Glasswing G3X</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="root">
+  <!-- ══ top bar: radios / xpdr / audio ══ -->
+  <header id="topbar">
+    <div class="tgroup com" id="com1">
+      <div class="trow"><span class="lab">COM1</span><span class="freq act" data-ev="com1_swap">118.100</span><span class="freq stby" data-ev="com1_swap">118.700</span></div>
+      <div class="trow names"><span id="com1a_name">PORTLAND AP</span><span id="com1s_name">KPDX TOWER</span></div>
+    </div>
+    <div class="tgroup nav" id="nav1">
+      <div class="trow"><span class="lab">NAV1</span><span class="freq act">111.30</span><span class="freq stby">108.00</span></div>
+      <div class="trow names"><span>IVDG</span><span class="dim">108.00</span></div>
+    </div>
+    <div class="tgroup small">
+      <div class="trow"><span class="lab2">DTK to Next</span></div>
+      <div class="trow"><span class="big" id="dtk_next">104°</span></div>
+    </div>
+    <div class="tgroup small">
+      <div class="trow"><span class="lab2">TRK</span></div>
+      <div class="trow"><span class="big" id="trk_box">104°</span></div>
+    </div>
+    <div class="tgroup xpdr" id="xpdr">
+      <div class="trow"><span class="tail" id="tail">N675PD</span><span class="xpdr-code" id="xpdr_code">3422</span><span class="xpdr-mode" id="xpdr_mode">ALT</span></div>
+      <div class="trow"><button class="btn ident" id="btn_ident">IDENT</button></div>
+    </div>
+    <div class="tgroup audio">
+      <div class="trow"><span class="lab">Audio</span><span class="lab2">MIC</span><span class="lab2">MON</span></div>
+      <div class="trow"><span class="spk on">◀</span><span class="spk on">◀</span></div>
+    </div>
+    <div class="tgroup com" id="com2">
+      <div class="trow"><span class="lab">COM2</span><span class="freq act" data-ev="com2_swap">128.350</span><span class="freq stby" data-ev="com2_swap">121.900</span></div>
+      <div class="trow names"><span id="com2a_name">KPDX ATIS</span><span id="com2s_name">KPDX GROUND</span></div>
+    </div>
+    <div class="tgroup splitbtn"><button class="btn" id="btn_split">Split</button></div>
+  </header>
+
+  <!-- ══ main row ══ -->
+  <main id="midrow">
+    <aside id="engine"><canvas id="engine-canvas"></canvas>
+      <div class="emode"><span>Altitude ⟲</span><span>Heading</span></div>
+    </aside>
+    <section id="pfd-wrap"><canvas id="pfd-canvas"></canvas></section>
+    <aside id="rightcol">
+      <div id="mapbox"><canvas id="map-canvas"></canvas><span class="hint">tap map for split</span></div>
+      <div id="hsibox"><canvas id="hsi-canvas"></canvas></div>
+      <div id="nearest">
+        <div class="nhead">Nearest Airport</div>
+        <div id="nearest-list"></div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ══ bottom bar ══ -->
+  <footer id="botbar">
+    <span class="bitem" id="legline"><b class="mag" id="leg_from">TRAYL</b> → <b class="mag" id="leg_to">BLAZR</b> <span class="lbl">faf</span></span>
+    <span class="bitem">DIS <b class="mag" id="wpt_dist">2.0</b><span class="lbl">NM</span></span>
+    <span class="bitem">ETE <b id="ete">01:00</b></span>
+    <span class="bitem">ETA <b id="eta">21:41</b><span class="lbl">UTC</span></span>
+    <span class="bitem">Timer <b id="timer">0:30:00</b></span>
+    <span class="bitem"><b id="utc">16:10:38</b><span class="lbl">UTC</span></span>
+    <span class="bitem">OAT <b id="oat">59</b><span class="lbl">°F</span></span>
+    <span class="bitem dim">System</span>
+    <span class="bitem dim right">None ▸ Baro</span>
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

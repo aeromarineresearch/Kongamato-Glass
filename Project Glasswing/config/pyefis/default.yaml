@@ -1,0 +1,50 @@
+auto start: AUTO_START
+# For help configuring your screen layout visit:
+# https://github.com/makerplane/pyEfis/blob/master/docs/screenbuilder.md
+main:
+  include: MAIN_CONFIG
+
+# The keybindings are used to attach keystrokes to actions.  The key can be
+# a string that represents a key Sequence.  See the documentation for more
+# information about key sequences and actions.
+keybindings:
+  - include: KEYBINDING_CONFIG
+
+# Data bindings tie actions to values in teh database
+# key is the database key and should match the FIX Gateway key
+databindings:
+  - include: DATABINDING_CONFIG
+
+# This section defines FIX IDs that we'll write out to the
+# FIX Gateway server.  Each can be defined as one of three
+# methods.  Interval will look at the time out lifetime (TOL)
+# of the point and send the data at half that interval.
+# OnChange will send when the value is changed and Both will
+# do both.
+outputs:
+  - include: OUTPUTS_CONFIG
+
+# Screen definitions describe the screens that will be loaded
+# and ready for use.  Each section should start with "Screen."
+# followed by the name.  The only required configuration is
+# module, which is the module that will be loaded to render
+# the screen
+
+screens:
+  include: SCREENS_CONFIG
+ 
+# Hooks are user defined modules that are loaded at specific points
+# in the programs execution.  Right now their is only one place and
+# it is right after all of the initialization and just before the
+# main window and default screen are shown.  We'll add more as the
+# need arises.
+hooks:
+  # Keys:
+  #   module: user.hooks.keys
+  # Composite:
+  #   module: user.hooks.composite
+
+
+# Logging configuration - See Python logging.config module documenation
+logging:
+  include: LOGGING_CONFIG

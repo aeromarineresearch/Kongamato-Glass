@@ -1,0 +1,26 @@
+# Super AFCS DISENGAGE — the panel's big red button.
+# Writes AFCS_CMD=DISENGAGE into the FIX database; glasswing_bridge forwards
+# it to the AFCS executive (/afcs/cmd). This is SAFETY.md override path #4 —
+# paths #1 (guarded switch) and #2 (stick breakout) are hardware-level and do
+# not depend on this button working.
+type: simple
+text: AFCS OFF
+dbkey: AFCS_CMD
+conditions:
+  # Idle: dark red, armed look
+  - when: "AFCS_MODE eq 'OFF'"
+    actions:
+      - set text: AFCS OFF
+      - set bg color: darkred
+      - set fg color: white
+    continue: true
+  # Engaged: bright red, unmistakable
+  - when: "AFCS_MODE ne 'OFF'"
+    actions:
+      - set text: DISENGAGE
+      - set bg color: red
+      - set fg color: white
+    continue: true
+  - when: "CLICKED eq true"
+    actions:
+      - set value: AFCS_CMD, DISENGAGE

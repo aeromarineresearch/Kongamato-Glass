@@ -1,0 +1,9 @@
+# VoiceCommand: one intent slot filled by afcs_human_interface.
+# The executive validates, reads back, and executes only on confirm.
+string intent              # DIVERT | LAND_AT | CLIMB_TO | HOLD | GO_AROUND | DISENGAGE | SAY_INTENTIONS
+string argument            # e.g. "KSQL", "4500", "nearest airport"
+---
+bool accepted
+string readback            # what the system understood (spoken + shown on FMA)
+---
+string state               # PARSED | AWAITING_CONFIRM | EXECUTING | DONE | REJECTED

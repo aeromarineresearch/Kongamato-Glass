@@ -1,0 +1,88 @@
+# Avoid editing this file
+# Future updates may include changes to this file but once you edit
+# this file it will no longer be auto-updated and you will not
+# benefit from the improvements without manual intervention
+
+# If you want to edit min/max/initial/tol/etc
+# Do that in the file custom.ini
+#
+
+items:
+
+- key: MAVREQTRIM
+  type: bool
+  initial: False
+
+- key: MAVREQGUIDED
+  type: bool
+  initial: False
+
+- key: MAVREQAUTO
+  type: bool
+  initial: False
+
+- key: MAVREQCRUISE
+  type: bool
+  initial: False
+
+- key: MAVREQAUTOTUNE
+  type: bool
+  initial: False
+
+- key: MAVSTATE
+  description: Status of auto pilot, Avaliable or not
+  type: str
+  tol: 10000
+  initial: INIT
+
+- key: MAVMODE
+  description: Mode of auto pilot, Heading Hold (CRUISE), Trim (Manual), AUTO fly to waypoint
+  type: str
+  initial: TRIM
+  tol: 10000
+
+- key: MAVMSG
+  description: Auto Pilot Message for pilot
+  type: str
+  initial: ""
+
+- key: MAVREQADJ
+  description: Request heading or altitude adjustment mode
+  type: bool
+  initial: False
+
+- key: MAVADJ
+  description: Identifies if adjustment mode is enabled
+  type: bool
+  initial: False
+
+- key: MAVWPVALID
+  type: bool
+  initial: False
+
+# Used by ifly and mavlink
+- key: WPLAT
+  description: Waypoint Latitude
+  type: float
+  initial: 0.0
+  min: -90
+  max: 90
+  tol: 50000
+- key: WPLON
+  description: Waypoint Longitude
+  type: float
+  initial: 0.0
+  min: -90
+  max: 90
+  tol: 50000
+- key: WPNAME
+  description: Waypoint Name
+  type: str
+  tol: 50000
+  initial: ""
+- key: WPHEAD
+  description: Heading to waypoint
+  type: str
+  tol: 50000
+  initial: ""
+

@@ -1,0 +1,11 @@
+# Project Glasswing milestone 0 — SITL demo: only mavlink + netfix on.
+enabled:
+  QUORUM: false
+  DATA_RECORDER: false
+  NETFIX: true
+  COMMAND: false
+  FLIGHT_GEAR: false
+  XPLANE: false
+  CANFIX: false
+  MAVLINK: true
+  DEMO: false

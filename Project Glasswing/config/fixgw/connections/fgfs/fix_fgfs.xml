@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <generic>
+
+  <output>
+   <line_separator>newline</line_separator>
+   <var_separator>,</var_separator>
+
+   <chunk>
+    <name>IAS: Indicated-speed-kt</name>
+    <type>double</type>
+    <format>%.1f</format>
+    <node>/instrumentation/airspeed-indicator/indicated-speed-kt</node>
+   </chunk>
+
+   <chunk>
+    <name>TAS: True Airspeed</name>
+    <type>double</type>
+    <format>%.1f</format>
+    <node>/instrumentation/airspeed-indicator/true-speed-kt</node>
+   </chunk>
+
+   <chunk>
+    <name>PITCH: pitch att (deg)</name>
+    <type>float</type>
+    <format>%.1f</format>
+    <node>/orientation/pitch-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>ROLL: Roll att (deg)</name>
+    <type>float</type>
+    <format>%.1f</format>
+    <node>/orientation/roll-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>HEAD: Magnetic heading (deg)</name>
+    <type>float</type>
+    <format>%.1f</format>
+    <node>/orientation/heading-magnetic-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>ALT: Altitude</name>
+    <type>double</type>
+    <format>%.0f</format>
+    <node>/instrumentation/altimeter/indicated-altitude-ft</node>
+   </chunk>
+
+   <chunk>
+    <name>VS: VSI</name>
+    <type>float</type>
+    <format>%.1f</format>
+    <node>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</node>
+   </chunk>
+
+    <chunk>
+     <name>ROT: Rate of Turn</name>
+     <type>float</type>
+     <format>%.5f</format>
+     <node>/orientation/yaw-rate-degps</node>
+   </chunk>
+
+   <chunk>
+    <name>ALAT: AccelerationLateral</name>
+    <type>double</type>
+    <format>%.11f</format>
+    <node>/accelerations/pilot/y-accel-fps_sec</node>
+    <factor>0.031070336391437</factor>
+   </chunk>
+
+   <chunk>
+    <name>TRACK: Current Aircraft Bearing</name>
+    <type>double</type>
+    <format>%.1f</format>
+    <node>/orientation/track-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>TRACKM: Current Aircraft Magnetic Bearing</name>
+    <type>double</type>
+    <format>%.1f</format>
+    <node>/orientation/track-magnetic-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>VOLT: Voltage</name>
+    <type>float</type>
+    <format>%.1f</format>
+    <node>/systems/electrical/volts</node>
+   </chunk>
+
+   <chunk>
+    <name>TACH1: RPM Engine 1</name>
+    <type>integer</type>
+    <format>%i</format>
+    <node>/engines/engine/rpm</node>
+   </chunk>
+
+   <chunk>
+    <name>MAP1: Manifold Pressure</name>
+    <type>float</type>
+    <format>%.2f</format>
+    <node>/engines/engine/mp-inhg</node>
+   </chunk>
+
+   <chunk>
+     <name>OILT1: Oil Temp F</name>
+     <type>float</type>
+     <format>%.1f</format>
+     <node>/engines/engine[0]/oil-temperature-degf</node>
+     <offset>-32</offset>
+     <factor>0.55555555555555555</factor>
+   </chunk>
+
+   <chunk>
+    <name>OILP1: Oil Pressure</name>
+    <type>float</type>
+    <format>%.1f</format>
+    <node>/engines/engine[0]/oil-pressure-psi</node>
+   </chunk>
+
+   <chunk>
+     <name>EGT11: Exhaust Gas Temperature</name>
+     <type>double</type>
+     <format>%.1f</format>
+     <node>/engines/engine/egt-degf</node>
+     <offset>-32</offset>
+     <factor>0.55555555555555555</factor>
+   </chunk>
+
+   <chunk>
+     <name>CHT11: Cylinder Head Temperature</name>
+     <type>double</type>
+     <format>%.1f</format>
+     <node>/engines/engine/cht-degf</node>
+     <offset>-32</offset>
+     <factor>0.55555555555555555</factor>
+   </chunk>
+
+   <chunk>
+    <name>FUELF1: Fuel Flow</name>
+    <type>double</type>
+    <format>%.1f</format>
+    <node>/engines/engine/fuel-flow-gph</node>
+   </chunk>
+
+   <chunk>
+    <name>FUELQ1: Fuel Tank 0</name>
+    <type>float</type>
+    <format>%.2f</format>
+    <node>/consumables/fuel/tank[0]/level-gal_us</node>
+   </chunk>
+
+   <chunk>
+    <name>FUELQ2: Fuel Tank 1</name>
+    <type>float</type>
+    <format>%.2f</format>
+    <node>/consumables/fuel/tank[1]/level-gal_us</node>
+   </chunk>
+
+   <chunk>
+    <name>GS: Ground Speed</name>
+    <type>double</type>
+    <format>%.1f</format>
+    <node>/instrumentation/gps/indicated-ground-speed-kt</node>
+   </chunk>
+
+   <chunk>
+    <name>LAT: Latitude</name>
+    <type>double</type>
+    <format>%.14f</format>
+    <node>/instrumentation/gps/indicated-latitude-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>LONG: Longitude</name>
+    <type>double</type>
+    <format>%.14f</format>
+    <node>/instrumentation/gps/indicated-longitude-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>OAT: Outside Air Temperature</name>
+    <type>double</type>
+    <format>%.1f</format>
+    <node>/environment/temperature-degc</node>
+   </chunk>
+
+  </output>
+
+
+<input>
+    <line_separator>newline</line_separator>
+    <var_separator>,</var_separator>
+    <chunk>
+        <name>BARO: Altimeter Setting</name>
+        <type>double</type>
+        <format>%.2f</format>
+        <node>/instrumentation/altimeter/setting-inhg</node>
+    </chunk>
+    <!-- <chunk>
+        <name>THR1: Throttle Control Engine 1</name>
+        <type>double</type>
+        <format>%.2f</format>
+        <node>/controls/engines/engine/throttle</node>
+    </chunk>
+    <chunk>
+        <name>MIX1: Mixture Control Engine 1</name>
+        <type>double</type>
+        <format>%.2f</format>
+        <node>/controls/engines/engine/mixture</node>
+    </chunk> -->
+</input>
+
+</generic>
+
+</PropertyList>

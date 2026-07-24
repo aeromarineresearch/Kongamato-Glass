@@ -1,0 +1,34 @@
+type: toggle
+text: "Heading\nHold"
+dbkey: TSBTN{id}25
+condition_keys:
+  - MAVMODE
+  - MAVSTATE
+conditions:
+  - when: "MAVSTATE ne 'ARMED'"
+    actions:
+      - button: disable
+      - button: unchecked
+      - set bg color: red
+  - when: "CLICKED eq true and DBKEY eq false"
+    # We are in cruise, requested mode is cruise but the button is off, drop to TRIM
+    actions:
+      - set value: MAVREQTRIM, True
+      - set bg color: yellow
+  - when: "CLICKED eq true and DBKEY eq true"
+    # We a are on, FP is off, we are armed and not in cruise mode like we should be
+    actions:
+      - set value: MAVREQCRUISE, True
+      - set bg color: yellow
+  - when: "MAVMODE eq 'CRUISE'"
+    actions:
+      - set bg color: green
+      - button: checked
+      - button: enable
+  - when: "MAVMODE ne 'CRUISE'"
+    actions:
+      - set bg color: lightgray
+      - button: unchecked
+      - button: enable
+
+

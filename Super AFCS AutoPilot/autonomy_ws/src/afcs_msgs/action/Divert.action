@@ -1,0 +1,16 @@
+# Divert: pick the nearest suitable airport (airport_db) and fly there.
+# Fuel, wind, runway length and surface all factor into suitability.
+float64 min_runway_ft
+float64 max_crosswind_kt
+bool paved_only
+string reason              # "PIC_REQUEST" | "LOW_FUEL" | "WEATHER" | "SYSTEM"
+---
+bool success
+string airport_ident       # where we are actually going
+string runway_ident
+float64 dist_nm
+---
+string phase               # SEARCH | ENROUTE | ARRIVAL
+string airport_ident
+float64 dtg_nm
+float64 eta_s

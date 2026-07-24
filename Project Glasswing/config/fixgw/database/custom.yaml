@@ -1,0 +1,120 @@
+items:
+# Use this file to add your custom fix database keys
+# When the software is updated it might include improvements
+# in the other configuration files. By making your customizations
+# here those other files wil be updated when you update the software
+# This file, once you edit it, will not be overwritten when
+# you install updates.
+#
+# If you want to change a parameter of a fix key, such as setting 
+# the max RPM for TACH, do that in the file custom.ini
+#
+# Here is an example to create an EXAMPLE fix key:
+#
+- key: EXAMPLE
+  description: "Just an example"
+  type: str
+  initial: "Example value"
+
+# ============================================================
+# Super AFCS (Track 3) keys — contract: Super AFCS AutoPilot/docs/INTEGRATION.md
+# Published by glasswing_bridge (ROS2 -> NetFIX). Consumed by the pyEfis FMA
+# strip (Track 1) and the AR HUD FMA line (Track 2). AFCS_CMD flows the other
+# way: cockpit -> AFCS executive.
+# ============================================================
+- key: AFCS_MODE
+  description: "AFCS mode annunciation: OFF|SHADOW|ARMED|AUTO_TAKEOFF|ENROUTE|APPROACH|AUTOLAND|GO_AROUND|DEGRADED|FAILSAFE"
+  type: str
+  initial: "OFF"
+  tol: 300
+
+- key: AFCS_TARGET
+  description: "Current AFCS objective, e.g. KSQL RWY30"
+  type: str
+  initial: ""
+  tol: 300
+
+- key: AFCS_PHASE
+  description: "Fine-grained phase of the active AFCS action"
+  type: str
+  initial: ""
+  tol: 300
+
+- key: AFCS_INTENT
+  description: "Plain-language statement of the AFCS plan"
+  type: str
+  initial: ""
+  tol: 300
+
+- key: AFCS_DTG_NM
+  description: "AFCS distance to go"
+  type: float
+  initial: 0.0
+  min: 0.0
+  units: nm
+  tol: 300
+
+- key: AFCS_ETA_S
+  description: "AFCS estimated time to target"
+  type: float
+  initial: 0.0
+  min: 0.0
+  units: s
+  tol: 300
+
+- key: AFCS_WIND
+  description: "AFCS wind estimate, e.g. 280@12G18"
+  type: str
+  initial: ""
+  tol: 300
+
+- key: AFCS_ENERGY
+  description: "AFCS energy state vs approach profile, -1 low .. +1 high"
+  type: float
+  initial: 0.0
+  min: -1.0
+  max: 1.0
+  tol: 300
+
+- key: AFCS_ADVISORY
+  description: "Latest AFCS advisory (plain language, auto-expiring)"
+  type: str
+  initial: ""
+  tol: 300
+
+- key: AFCS_CMD
+  description: "Cockpit -> AFCS command channel: DISENGAGE|GO_AROUND|CONFIRM|NEGATIVE"
+  type: str
+  initial: ""
+  tol: 300
+
+- key: TRAFFIC_BRG
+  description: "Bearing to nearest traffic (ADS-B or perception)"
+  type: float
+  initial: 0.0
+  min: 0.0
+  max: 360.0
+  units: deg
+  tol: 300
+
+- key: TRAFFIC_DIST
+  description: "Distance to nearest traffic"
+  type: float
+  initial: 99.0
+  min: 0.0
+  units: nm
+  tol: 300
+
+- key: TRAFFIC_RELALT
+  description: "Relative altitude of nearest traffic"
+  type: float
+  initial: 0.0
+  units: ft
+  tol: 300
+
+- key: TRAFFIC_ID
+  description: "Identifier/callsign of nearest traffic if known"
+  type: str
+  initial: ""
+  tol: 300
+
