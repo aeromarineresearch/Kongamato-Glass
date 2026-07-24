@@ -2,6 +2,10 @@
 
 *Read this first in any new session. Last updated: 2026-07-23.*
 
+**Repo: https://github.com/aeromarineresearch/kongamato** — root is
+`~/DEV/Aviation` (all three tracks, one repo). Excluded: `vendor/`, `research/`,
+`QGroundControl/` (see root `.gitignore`). Git identity is configured locally.
+
 ---
 
 ## The project in one breath
@@ -74,7 +78,8 @@ Details: `Super AFCS AutoPilot/docs/SAFETY.md`.
 4. Package.xml/CMakeLists for the ROS2 packages (currently Python modules + action
    definitions only — they don't build with colcon yet)
 5. KSQL Gazebo world + C172-class SDF model (`simulation/`)
-6. Git init + push (user will create the repo; LICENSE MIT is already in place)
+6. ~~Git init + push~~ **DONE 2026-07-23** — live at github.com/aeromarineresearch/kongamato
+   (initial commit rebased onto GitHub's auto-init; `.gitignore` conflict resolved to ours)
 
 ## Open decisions for the user
 
