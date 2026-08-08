@@ -3,6 +3,11 @@
 *Named after the legendary creature said to rule the skies — because everyone has a
 right to the sky.*
 
+### ▶ [Live demo — the Glasswing glass cockpit](https://aeromarineresearch.github.io/Kongamato-Glass/)
+
+A running G3X-style EFIS (PFD, moving map, engine strip) flying a synthetic demo
+flight — **right in your browser, no install, no hardware, no login.**
+
 **Kongamato is an open-source, full-stack avionics platform for experimental aviation:**
 a glass cockpit, an AR smart-glasses HUD, and a full autopilot — auto takeoff,
 auto land, nearest-airport diversion, wind-aware patterns, traffic and obstacle
@@ -25,7 +30,7 @@ and talks to the airplane. The heavy tech stays out of sight.
 
 | Track | Directory | What it is |
 |---|---|---|
-| **1 — Glass Cockpit** | [`Project Glasswing/`](Project%20Glasswing/) | Full EFIS (PFD, moving map, engine page) from open hardware: Raspberry Pi 5 + SpeedyBee/ArduPilot sensors + CAN-FIX engine nodes, built on the MakerPlane ecosystem (FIX-Gateway, pyEfis). Target BOM < $600 vs $5–15k for Dynon/Garmin — plus Chronos-2 predictive engine analytics the big guys don't ship. |
+| **1 — Glass Cockpit** | [`Project Glasswing/`](Project%20Glasswing/) | **[▶ Live demo](https://aeromarineresearch.github.io/Kongamato-Glass/).** Full EFIS (PFD, moving map, engine page) from open hardware: Raspberry Pi 5 + SpeedyBee/ArduPilot sensors + CAN-FIX engine nodes, built on the MakerPlane ecosystem (FIX-Gateway, pyEfis). Target BOM < $600 vs $5–15k for Dynon/Garmin — plus Chronos-2 predictive engine analytics the big guys don't ship. |
 | **2 — AR HUD** | [`AR XR HUD Avionics/`](AR%20XR%20HUD%20Avionics/) | See-through smart-glasses HUD (Android/Kotlin): attitude, airspeed, altitude, heading — heads-up, eyes-out. An auxiliary mirror of the same data bus; if it dies, you lose nothing. |
 | **3 — Super AFCS** | [`Super AFCS AutoPilot/`](Super%20AFCS%20AutoPilot/) | The autonomy brain. Full pilot-grade mission capability commanded by voice ("Glasswing, divert to the nearest airport"), with readback-and-confirm, five independent PIC override paths, and a shadow-mode trust ladder. |
 
@@ -54,8 +59,8 @@ Principles adapted from NRC Canada's
 ## Quickstart (zero hardware)
 
 ```bash
-git clone https://github.com/aeromarineresearch/kongamato.git
-cd kongamato/Super\ AFCS\ AutoPilot
+git clone https://github.com/aeromarineresearch/Kongamato-Glass.git
+cd Kongamato-Glass/Super\ AFCS\ AutoPilot
 ./scripts/afcs sim      # Gazebo + ArduPilot SITL + autonomy + glass cockpit + HUD bridge
 ./scripts/afcs test     # fly the CI mission suite faster-than-real-time
 ```
