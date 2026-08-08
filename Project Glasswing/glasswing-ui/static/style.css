@@ -41,6 +41,15 @@ html,body { height:100%; background:#0a0a0c; color:#e8e8ea;
 #engine-canvas { flex:1; width:100%; }
 .emode { display:flex; justify-content:space-around; font-size:11px; color:#c9c9cf;
   padding:4px 0; border-top:1px solid #2c2c32; }
+/* ── brand lockup (bottom of engine strip) — transparent, dark-theme ── */
+.brand { display:flex; align-items:center; justify-content:center; gap:8px;
+  padding:9px 6px; border-top:1px solid #2c2c32; }
+.brand-mark { width:24px; height:24px; object-fit:contain; flex:none; }
+.brand-name { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:16px; font-weight:400; letter-spacing:.02em; color:#e8e8ea; line-height:1; }
+#root.split .brand { gap:6px; padding:7px 4px; }
+#root.split .brand-mark { width:20px; height:20px; }
+#root.split .brand-name { font-size:14px; }
 #pfd-wrap { flex:1; min-width:0; position:relative; }
 #pfd-canvas { width:100%; height:100%; display:block; }
 #rightcol { width:220px; display:flex; flex-direction:column; background:#0e0e11;
