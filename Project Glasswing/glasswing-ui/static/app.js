@@ -33,11 +33,16 @@ function smooth() {
 }
 
 /* ─────────── websocket ─────────── */
+let _lastMsg = -1e9;                      // perf-time of last live telemetry frame (start stale → sim runs at once)
 function connect() {
   const proto = location.protocol === "https:" ? "wss" : "ws";
-  const ws = new WebSocket(`${proto}://${location.hostname}:8760`);
-  ws.onmessage = e => { try { Object.assign(S, JSON.parse(e.data)); } catch(_){} };
-  ws.onclose = () => setTimeout(connect, 1500);
+  let ws;
+  try { ws = new WebSocket(`${proto}://${location.hostname}:8760`); }
+  catch (_) { setTimeout(connect, 4000); return; }   // no server → sim fallback drives it
+  ws.onmessage = e => {
+    try { Object.assign(S, JSON.parse(e.data)); _lastMsg = performance.now(); } catch(_){}
+  };
+  ws.onclose = () => setTimeout(connect, 4000);
   ws.onopen = () => { window._ws = ws; };
 }
 function sendEvent(type, data={}) {
@@ -584,8 +589,47 @@ document.querySelectorAll(".freq").forEach(el =>
     sendEvent(grp + "_swap");
   }));
 
+/* ─────────── offline sim fallback ───────────
+ * Mirrors server.py:SimSource so the display animates with no backend
+ * (e.g. served static from GitHub Pages). Runs only while no live
+ * telemetry is arriving; a real server instantly takes over. */
+const _sim = { t0: performance.now()/1000, last: performance.now()/1000,
+               wpt_next: S.wpt_next, wpt_after: S.wpt_after, wpt_dist: S.wpt_dist,
+               fuel_l: S.fuel_l, fuel_r: S.fuel_r, timer: S.timer };
+const _p2 = n => String(n).padStart(2, "0");
+const _hms = d => `${_p2(d.getUTCHours())}:${_p2(d.getUTCMinutes())}:${_p2(d.getUTCSeconds())}`;
+const _hm  = d => `${_p2(d.getUTCHours())}:${_p2(d.getUTCMinutes())}`;
+function simTick() {
+  const now = performance.now()/1000;
+  const dt = Math.min(0.1, now - _sim.last); _sim.last = now;
+  const t = now - _sim.t0;
+  S.roll  = 15 * Math.sin(t/9);
+  S.pitch = 3 + 2 * Math.sin(t/7 + 1);
+  S.hdg   = (S.hdg + S.roll*0.06*dt*10 + 360) % 360;
+  S.trk   = S.hdg;
+  S.ias   = Math.max(60, 120 + 12*Math.sin(t/13));
+  S.tas   = S.ias * 1.09;
+  S.gs    = S.tas - 10;
+  S.vs    = 500 * Math.sin(t/11);
+  S.alt  += S.vs/60 * dt;
+  const r = S.hdg * Math.PI/180;
+  S.lat  += Math.cos(r)*S.gs*dt/3440/60;
+  S.lon  += Math.sin(r)*S.gs*dt/(3440*Math.cos(S.lat*Math.PI/180))/60;
+  _sim.wpt_dist = Math.max(0.2, _sim.wpt_dist - S.gs*dt/3600);
+  if (_sim.wpt_dist < 0.25) { _sim.wpt_next = _sim.wpt_after; _sim.wpt_after = "BUXOM"; _sim.wpt_dist = 6.0; }
+  S.wpt_next = _sim.wpt_next; S.wpt_after = _sim.wpt_after; S.wpt_dist = _sim.wpt_dist;
+  S.rpm = 2300 + 30*Math.sin(t/5);
+  _sim.fuel_l = Math.max(0, _sim.fuel_l - dt/3600*8.5);
+  _sim.fuel_r = Math.max(0, _sim.fuel_r - dt/3600*8.5);
+  S.fuel_l = _sim.fuel_l; S.fuel_r = _sim.fuel_r;
+  _sim.timer = Math.max(0, _sim.timer - dt); S.timer = _sim.timer;
+  S.utc = _hms(new Date());
+  S.eta_utc = _hm(new Date(Date.now() + _sim.wpt_dist/Math.max(S.gs,1)*3600*1000));
+}
+
 /* ═══════════ main loop ═══════════ */
 function frame() {
+  if (performance.now() - _lastMsg > 2000) simTick();   // no live data → self-animate
   smooth();
   drawPFD(); drawMap(); drawHSI(); drawEngine(); syncDOM();
   requestAnimationFrame(frame);
